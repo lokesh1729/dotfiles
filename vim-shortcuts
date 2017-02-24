@@ -1,0 +1,21 @@
+F8 - Toggle Tag bar
+,t - Show current File in Nerd Tree
+
+---------------------- CtrlP -------------------
+
+,g - tags in current file
+,G - tags in all files
+,m - search for recent files
+,f - general code finder
+
+c-f - cycle between modes
+c-r - switch to regex
+c-t - open in new tab
+
+
+\e - Errors in file
+\n - Next error
+\p - Previous error
+
+
+------------------ pymode ------------------
