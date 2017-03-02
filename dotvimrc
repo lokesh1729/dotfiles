@@ -441,6 +441,7 @@ let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
 
+
 let g:airline#extensions#branch#enabled = 1
 let g:airline#extensions#tabline#left_alt_sep = '|'
 
@@ -551,6 +552,7 @@ syntax on
 if has('gui_running')
     colorscheme molokai
     set background=dark
+    set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 12
 else
     "To use the system default scheme
     "colorscheme default
