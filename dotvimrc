@@ -424,7 +424,7 @@ highlight SignifySignChange cterm=bold ctermbg=237  ctermfg=227
 " Airline ------------------------------
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'tomorrow'
+let g:airline_theme = 'wombat'
 let g:airline#extensions#whitespace#enabled = 1
 
 " to use fancy symbols for airline, uncomment the following lines and use a
@@ -517,27 +517,26 @@ set tw=100
 " VIM colorscheme settings
 " use 256 colors when possible
 " ============ molokai ============
-" molokai colorscheme
-if &term =~? 'mlterm\|xterm\|xterm-256\|screen-256'
-    let &t_Co = 256
-    colorscheme molokai
-else
-    colorscheme delek
-endif
+"if &term =~? 'mlterm\|xterm\|xterm-256\|screen-256'
+    "let &t_Co = 256
+    "colorscheme molokai
+"else
+    "colorscheme delek
+"endif
 
 " ============ Solarized ============
 
-let g:solarized_termcolors=256
+"let g:solarized_termcolors=256
 
-syntax on
-set background=dark
-colorscheme solarized
+"syntax on
+"set background=dark
+"colorscheme solarized
 
-if has('gui_running')
-    set background=dark
-else
-    set background=light
-endif
+"if has('gui_running')
+    "set background=dark
+"else
+    "set background=light
+"endif
 
 " ===================== My changes ===================
 " Move between tabs
@@ -553,7 +552,8 @@ if has('gui_running')
     colorscheme molokai
     set background=dark
 else
-    colorscheme default
+    "To use the system default scheme
+    "colorscheme default
     highlight ColorColumn ctermbg=darkgrey guibg=black
     hi CursorColumn cterm=NONE ctermbg=darkgrey ctermfg=yellow
     hi CursorLine   cterm=NONE ctermbg=blue ctermfg=white
