@@ -73,6 +73,8 @@ Plugin 'altercation/vim-colors-solarized'
 Plugin 'Konfekt/FastFold'
 "for key mappings
 Plugin 'tpope/vim-unimpaired'
+"Tags,Braces Close Automatically an alternative to AutoClose
+Plugin 'Raimondi/delimitMate'
 
 " ============================================================================
 " Install plugins the first time vim runs
@@ -245,10 +247,11 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 " file finder mappings
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_path_nolim = 1
-let g:ctrlp_map = ',e'
 " hidden some types files
 let g:ctrlp_show_hidden = 1
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.png,*.jpg,*.gif           "Linux
+"mapping to CtrlP if not"
+"nmap <C-P> :CtrlP<CR> 
 " tags (symbols) in current file finder mapping
 nmap ,g :CtrlPBufTag<CR>
 " tags (symbols) in all files finder mapping
@@ -279,6 +282,7 @@ let g:ctrlp_custom_ignore = {
   \ 'dir':  '\v[\/](\.git|\.hg|\.svn)$',
   \ 'file': '\.pyc$\|\.pyo$',
   \ }
+
 
 " Syntastic ------------------------------
 
@@ -329,6 +333,7 @@ let g:pymode_rope_goto_definition_cmd = 'e'
 nmap ,D :tab split<CR>:PymodePython rope.goto()<CR>
 nmap ,o :RopeFindOccurrences<CR>
 " --------------------------------------------
+
 "  Neocomplete
 let g:acp_enableAtStartup = 0
 " Use neocomplete.
@@ -419,7 +424,7 @@ highlight SignifySignChange cterm=bold ctermbg=237  ctermfg=227
 " Airline ------------------------------
 
 let g:airline_powerline_fonts = 1
-let g:airline_theme = 'cool'
+let g:airline_theme = 'tomorrow'
 let g:airline#extensions#whitespace#enabled = 1
 
 " to use fancy symbols for airline, uncomment the following lines and use a
@@ -435,6 +440,9 @@ let g:airline_right_alt_sep = ''
 let g:airline_symbols.branch = ''
 let g:airline_symbols.readonly = ''
 let g:airline_symbols.linenr = ''
+
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#left_alt_sep = '|'
 
 " new file set title and turn to endline
 autocmd BufNewFile *.sh,*.py,*.rb exec ":call SetTitle()"
@@ -517,11 +525,6 @@ else
     colorscheme delek
 endif
 
-" colors for gvim
-if has('gui_running')
-    colorscheme wombat
-endif
-
 " ============ Solarized ============
 
 let g:solarized_termcolors=256
@@ -537,17 +540,28 @@ else
 endif
 
 " ===================== My changes ===================
-
+" Move between tabs
+nnoremap <C-Left> :tabprevious<CR>
+nnoremap <C-Right> :tabnext<CR>
+"Search for selected text
+vnoremap // y/<C-R>"<CR>
+"enable tab lines
+let g:airline#extensions#tabline#enabled = 1
 syntax on
-colorscheme default
+
+if has('gui_running')
+    colorscheme molokai
+    set background=dark
+else
+    colorscheme default
+    highlight ColorColumn ctermbg=darkgrey guibg=black
+    hi CursorColumn cterm=NONE ctermbg=darkgrey ctermfg=yellow
+    hi CursorLine   cterm=NONE ctermbg=blue ctermfg=white
+    hi Search cterm=NONE ctermfg=black ctermbg=blue
+    "Gutter Line
+    highlight SignColumn cterm=NONE ctermbg=black ctermfg=red guibg=black guifg=white
+endif
+
 command NC NERDTreeClose
 command NT NERDTree
-
-
-highlight ColorColumn ctermbg=darkgrey guibg=black
-hi CursorColumn cterm=NONE ctermbg=black ctermfg=yellow guibg=white guifg=green
-hi CursorLine   cterm=NONE ctermbg=black ctermfg=yellow guibg=white guifg=green
-hi Search cterm=NONE ctermfg=black ctermbg=blue guibg=white guifg=peru
-"Gutter Line
-highlight SignColumn ctermbg=black guibg=white
 set formatoptions-=c
