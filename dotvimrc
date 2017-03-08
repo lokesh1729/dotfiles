@@ -518,12 +518,12 @@ set tw=100
 " VIM colorscheme settings
 " use 256 colors when possible
 " ============ molokai ============
-"if &term =~? 'mlterm\|xterm\|xterm-256\|screen-256'
-    "let &t_Co = 256
-    "colorscheme molokai
-"else
-    "colorscheme delek
-"endif
+if &term =~? 'mlterm\|xterm\|xterm-256\|screen-256'
+    let &t_Co = 256
+    colorscheme molokai
+else
+    colorscheme delek
+endif
 
 " ============ Solarized ============
 
@@ -547,6 +547,13 @@ nnoremap <C-Right> :tabnext<CR>
 vnoremap // y/<C-R>"<CR>
 "enable tab lines
 let g:airline#extensions#tabline#enabled = 1
+"remap y$ (yank to the end of the line except the new line character) to y$"
+noremap Y y$
+"Open tag definition in new tab http://stackoverflow.com/questions/563616/vim-and-ctags-tips-and-tricks
+map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+"Open tag in vertical split
+map <leader><C-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+
 syntax on
 
 if has('gui_running')
