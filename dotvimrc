@@ -556,6 +556,9 @@ noremap Y y$
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 "Open tag in vertical split
 map <leader><C-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+"map buffer next and prev
+map bt :bnext<CR>
+map bT :bprev<CR>
 
 syntax on
 
@@ -576,7 +579,7 @@ endif
 
 command NC NERDTreeClose
 command NT NERDTree
-set formatoptions-=c
+set formatoptions=l
 
 command! -complete=file -nargs=+ Tabe call s:ETW('tabnew', <f-args>)
 command! -complete=file -nargs=+ Tabewin call s:ETW('new', <f-args>)
