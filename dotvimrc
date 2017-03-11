@@ -252,6 +252,8 @@ let g:ctrlp_show_hidden = 1
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.png,*.jpg,*.gif           "Linux
 "mapping to CtrlP if not"
 "nmap <C-P> :CtrlP<CR> 
+"mapping to CtrlB for Searching Buffers
+nmap <C-b> :CtrlPBuffer<CR>
 " tags (symbols) in current file finder mapping
 nmap ,g :CtrlPBufTag<CR>
 " tags (symbols) in all files finder mapping
@@ -520,6 +522,7 @@ set tw=100
 " ============ molokai ============
 if &term =~? 'mlterm\|xterm\|xterm-256\|screen-256'
     let &t_Co = 256
+    set background=dark
     colorscheme molokai
 else
     colorscheme delek
@@ -574,3 +577,34 @@ endif
 command NC NERDTreeClose
 command NT NERDTree
 set formatoptions-=c
+
+command! -complete=file -nargs=+ Tabe call s:ETW('tabnew', <f-args>)
+command! -complete=file -nargs=+ Tabewin call s:ETW('new', <f-args>)
+command! -complete=file -nargs=+ Tabevwin call s:ETW('vnew', <f-args>)
+function! s:ETW(what, ...)
+  for f1 in a:000
+    let files = glob(f1)
+    if files == ''
+      execute a:what . ' ' . escape(f1, '\ "')
+    else
+      for f2 in split(files, "\n")
+        execute a:what . ' ' . escape(f2, '\ "')
+      endfor
+    endif
+  endfor
+endfunction
+
+command! -complete=file -nargs=* Buffe call Buffe(<f-args>)
+function! Buffe(...)
+  let t = tabpagenr()
+  let i = 0
+  for f in a:000
+    for g in glob(f, 0, 1)
+      exe "badd " . fnameescape(g)
+      let i = i + 1
+    endfor
+  endfor
+  if i
+    exe "bn " . (t + 1)
+  endif
+endfunction
