@@ -1,0 +1,44 @@
+# Undocumented feature which sets the size to "unlimited".
+# http://stackoverflow.com/questions/9457233/unlimited-bash-history
+export HISTFILESIZE=
+export HISTSIZE=
+export HISTTIMEFORMAT="[%F %T] "
+# Change the file location because certain bash sessions truncate .bash_history file upon close.
+# http://superuser.com/questions/575479/bash-history-truncated-to-500-lines-on-each-login
+export HISTFILE=~/.bash_history
+# Force prompt to write history after every command.
+# http://superuser.com/questions/20900/bash-history-loss
+
+PROMPT_COMMAND="history -a; $PROMPT_COMMAND"
+alias alert='notify-send --urgency=low -i "$([ $? = 0 ] && echo terminal || echo error)" "$(history|tail -n1|sed -e '\''s/^\s*[0-9]\+\s*//;s/[;&|]\s*alert$//'\'')"'
+export WORKON_HOME=$HOME/.virtualenvs
+source /usr/local/bin/virtualenvwrapper.sh
+JRE_HOME=/usr/lib/jvm/java-8-openjdk-amd64/jre
+export JRE_HOME
+JAVA_HOME=/usr/lib/jvm/java-8-openjdk-amd64
+export JAVA_HOME
+PATH=$PATH:$JAVA_HOME:$JRE_HOME
+export PATH
+function set-title(){
+  if [[ -z "$ORIG" ]]; then
+    ORIG=$PS1
+  fi
+  TITLE="\[\e]2;$*\a\]"
+  PS1=${ORIG}${TITLE}
+}
+. /usr/share/undistract-me/long-running.bash
+notify_when_long_running_commands_finish_install
+function vimtags(){
+    if [ -z "$1" ]
+      then
+        echo "Must give a directory to generate tags"
+        return 0
+    fi
+    if [ $# -eq 0 ]
+      then
+        echo "Must give a directory to generate tags"
+        return 0
+    fi
+    cd $1 && ctags -R --languages=Python,JavaScript --exclude=*.min.js --exclude=.git -o tags
+}
+alias sb="source ~/.bashrc"
