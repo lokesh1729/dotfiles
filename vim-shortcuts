@@ -1,3 +1,25 @@
+g; Older position in changelist
+g, newer position in changelist
+g* search for the word under the cursor (like *, but g* on 'rain' will find words like 'rainbow').
+gd will take you to the local declaration.
+gD will take you to the global declaration.
+g# same as g* but in backward direction
+gf will go to the file under the cursor
+
+ggn go to first occurence
+GN go to last occurence
+
+--------------------- Ctags -----------------
+
+Ctrl+T - Jump back from the definition.
+Ctrl+W Ctrl+] - Open the definition in a horizontal split
+
+
+
+
+--------------------- NerdTree -----------------
+
+F3 - Toggle NerdTree
 F8 - Toggle Tag bar
 ,t - Show current File in Nerd Tree
 
@@ -11,7 +33,8 @@ F8 - Toggle Tag bar
 c-f - cycle between modes
 c-r - switch to regex
 c-t - open in new tab
-
+Use <c-t> new tab
+    <c-v>, <c-x> in a new split.
 
 \e - Errors in file
 \n - Next error
@@ -19,3 +42,4 @@ c-t - open in new tab
 
 
 ------------------ pymode ------------------
+
