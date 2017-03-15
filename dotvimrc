@@ -54,7 +54,7 @@ Plugin 'klen/python-mode'
 " Better autocompletion
 Plugin 'Shougo/neocomplete.vim'
 " YouCompleteMe
-"Plugin 'Valloric/YouCompleteMe'
+Plugin 'Valloric/YouCompleteMe'
 " awesome colorscheme
 Plugin 'tomasr/molokai'
 " Git/mercurial/others diff icons on the side of the file lines
@@ -316,7 +316,7 @@ let g:syntastic_mode_map = {
     \ "mode": "active",
     \ "active_filetypes": ['python'],
     \ "passive_filetypes": [] }
-let g:syntastic_python_checkers = ['pyflakes', 'pep8', 'pylint']
+let g:syntastic_python_checkers = ['pyflakes', 'pep8', 'flake8']
 noremap <C-w>e :SyntasticCheck<CR>
 noremap <C-w>f :SyntasticToggleMode<CR>
 " Python-mode ------------------------------
@@ -511,9 +511,9 @@ set tw=100
 
 "YouCompleteMe
 
-"let g:ycm_python_binary_path = '/usr/bin/python3'
-"let g:ycm_global_ycm_extra_conf = '/home/lokesh1729/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
-"let g:ycm_collect_identifiers_from_tags_files = 0
+let g:ycm_python_binary_path = '/usr/bin/python3'
+let g:ycm_global_ycm_extra_conf = '/home/lokesh1729/.vim/bundle/YouCompleteMe/third_party/ycmd/cpp/ycm/.ycm_extra_conf.py'
+let g:ycm_collect_identifiers_from_tags_files = 0
 
 
 " ===========================================================================
@@ -565,6 +565,9 @@ map bT :bprev<CR>
 
 syntax on
 
+"Set no wrap
+set nowrap
+
 if has('gui_running')
     colorscheme molokai
     set background=dark
@@ -590,10 +593,10 @@ command! -complete=file -nargs=+ Tabevwin call s:ETW('vnew', <f-args>)
 function! s:ETW(what, ...)
   for f1 in a:000
     let files = glob(f1)
-    if(index(['__init__.py', '__init__'], files) >= 0)
+    if(index(['__init__.py', '__init__'], f1) >= 0)
         continue
     endif
-    let m = matchstr(files, '[a-z|A-Z|0-9]\/__init__.py')
+    let m = matchstr(f1, '[a-z|A-Z|0-9]\/__init__.py')
     if m != ''
         continue
     endif
@@ -601,6 +604,13 @@ function! s:ETW(what, ...)
       execute a:what . ' ' . escape(f1, '\ "')
     else
       for f2 in split(files, "\n")
+        if(index(['__init__.py', '__init__'], f2) >= 0)
+                continue
+            endif
+            let m = matchstr(f2, '[a-z|A-Z|0-9]\/__init__.py')
+            if m != ''
+                continue
+            endif
         execute a:what . ' ' . escape(f2, '\ "')
       endfor
     endif
