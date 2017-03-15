@@ -546,6 +546,9 @@ endif
 " Move between tabs
 nnoremap <C-Left> :tabprevious<CR>
 nnoremap <C-Right> :tabnext<CR>
+" Move between Buffers
+nnoremap <M-Left> :bprevious<CR>
+nnoremap <M-Right> :bnext<CR>
 "Search for selected text
 vnoremap // y/<C-R>"<CR>
 "enable tab lines
@@ -577,8 +580,8 @@ else
     highlight SignColumn cterm=NONE ctermbg=black ctermfg=red guibg=black guifg=white
 endif
 
-command NC NERDTreeClose
-command NT NERDTree
+command! NC NERDTreeClose
+command! NT NERDTree
 set formatoptions=l
 
 command! -complete=file -nargs=+ Tabe call s:ETW('tabnew', <f-args>)
@@ -587,6 +590,13 @@ command! -complete=file -nargs=+ Tabevwin call s:ETW('vnew', <f-args>)
 function! s:ETW(what, ...)
   for f1 in a:000
     let files = glob(f1)
+    if(index(['__init__.py', '__init__'], files) >= 0)
+        continue
+    endif
+    let m = matchstr(files, '[a-z|A-Z|0-9]\/__init__.py')
+    if m != ''
+        continue
+    endif
     if files == ''
       execute a:what . ' ' . escape(f1, '\ "')
     else
@@ -603,6 +613,13 @@ function! Buffe(...)
   let i = 0
   for f in a:000
     for g in glob(f, 0, 1)
+      if(index(['__init__.py', '__init__'], g) >= 0)
+          continue
+      endif
+      let m = matchstr(g, '[a-z|A-Z|0-9]\/__init__.py')
+      if m != ''
+          continue
+      endif
       exe "badd " . fnameescape(g)
       let i = i + 1
     endfor
