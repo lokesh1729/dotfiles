@@ -144,16 +144,7 @@ syntax on
 " show line numbers
 set nu
 
-" tab navigation mappings
-map tn :tabn<CR>
-map tp :tabp<CR>
-map tm :tabm 
-map tt :tabnew 
-map ts :tab split<CR>
-map <C-S-Right> :tabn<CR>
-imap <C-S-Right> <ESC>:tabn<CR>
-map <C-S-Left> :tabp<CR>
-imap <C-S-Left> <ESC>:tabp<CR>
+
 
 " navigate windows with meta+arrows
 map <M-Right> <c-w>l
@@ -544,13 +535,24 @@ endif
 
 " ===================== My changes ===================
 " Move between tabs
-nnoremap <C-Left> :tabprevious<CR>
-nnoremap <C-Right> :tabnext<CR>
+map tn :tabn<CR>
+map tp :tabp<CR>
+map tm :tabm 
+map tt :tabnew 
+map ts :tab split<CR>
+map <C-S-Right> :tabn<CR>
+imap <C-S-Right> <ESC>:tabn<CR>
+map <C-S-Left> :tabp<CR>
+imap <C-S-Left> <ESC>:tabp<CR>
 " Move between Buffers
 nnoremap <M-Left> :bprevious<CR>
 nnoremap <M-Right> :bnext<CR>
 "Search for selected text
 vnoremap // y/<C-R>"<CR>
+"Find usages
+vnoremap ?? y:noautocmd vimgrep /\<<C-R>"\>/ **/*.py <CR>
+"Find tags
+vnoremap tt y:tselect /<C-R>"<CR>
 "enable tab lines
 let g:airline#extensions#tabline#enabled = 1
 "remap y$ (yank to the end of the line except the new line character) to y$"
@@ -558,7 +560,7 @@ noremap Y y$
 "Open tag definition in new tab http://stackoverflow.com/questions/563616/vim-and-ctags-tips-and-tricks
 map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 "Open tag in vertical split
-map <leader><C-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+map <M-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
 "map buffer next and prev
 map bt :bnext<CR>
 map bT :bprev<CR>
@@ -572,6 +574,8 @@ if has('gui_running')
     colorscheme molokai
     set background=dark
     set guifont=Ubuntu\ Mono\ derivative\ Powerline\ 12
+    hi VertSplit guifg=white
+    hi LineNr guifg=white
 else
     "To use the system default scheme
     "colorscheme default
