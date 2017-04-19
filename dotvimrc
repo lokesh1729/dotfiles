@@ -539,10 +539,10 @@ map tp :tabp<CR>
 map tm :tabm 
 map tt :tabnew 
 map ts :tab split<CR>
-map <C-S-Right> :tabn<CR>
-imap <C-S-Right> <ESC>:tabn<CR>
-map <C-S-Left> :tabp<CR>
-imap <C-S-Left> <ESC>:tabp<CR>
+map <M-S-Right> :tabn<CR>
+imap <M-S-Right> <ESC>:tabn<CR>
+map <M-S-Left> :tabp<CR>
+imap <M-S-Left> <ESC>:tabp<CR>
 " Move between Buffers
 nnoremap <M-Left> :bprevious<CR>
 nnoremap <M-Right> :bnext<CR>
