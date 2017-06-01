@@ -75,7 +75,10 @@ Plugin 'Konfekt/FastFold'
 Plugin 'tpope/vim-unimpaired'
 "Tags,Braces Close Automatically an alternative to AutoClose
 Plugin 'Raimondi/delimitMate'
-
+" bookmarks
+Plugin 'MattesGroeger/vim-bookmarks'
+" ConfirmQuit
+Plugin 'vim-scripts/ConfirmQuit.vim'
 " ============================================================================
 " Install plugins the first time vim runs
 
@@ -143,18 +146,6 @@ syntax on
 
 " show line numbers
 set nu
-
-
-
-" navigate windows with meta+arrows
-map <M-Right> <c-w>l
-map <M-Left> <c-w>h
-map <M-Up> <c-w>k
-map <M-Down> <c-w>j
-imap <M-Right> <ESC><c-w>l
-imap <M-Left> <ESC><c-w>h
-imap <M-Up> <ESC><c-w>k
-imap <M-Down> <ESC><c-w>j
 
 " old autocomplete keyboard shortcut
 imap <C-J> <C-X><C-O>
@@ -249,7 +240,7 @@ nmap ,g :CtrlPBufTag<CR>
 " tags (symbols) in all files finder mapping
 nmap ,G :CtrlPBufTagAll<CR>
 " general code finder in all files mapping
-nmap ,f :CtrlPLine<CR>
+nmap ,l :CtrlPLine<CR>
 " recent files finder mapping
 nmap ,m :CtrlPMRUFiles<CR>
 " commands finder mapping
@@ -489,13 +480,8 @@ au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
 
 set encoding=utf-8
 
-
 let python_highlight_all=1
 syntax on
-
-
-
-set nu
 
 set tw=100
 
@@ -534,15 +520,10 @@ endif
 
 " ===================== My changes ===================
 " Move between tabs
-map tn :tabn<CR>
-map tp :tabp<CR>
-map tm :tabm 
-map tt :tabnew 
-map ts :tab split<CR>
-map <M-S-Right> :tabn<CR>
-imap <M-S-Right> <ESC>:tabn<CR>
-map <M-S-Left> :tabp<CR>
-imap <M-S-Left> <ESC>:tabp<CR>
+map <C-Right> :tabn<CR>
+imap <C-Right> <ESC>:tabn<CR>
+map <C-Left> :tabp<CR>
+imap <C-Left> <ESC>:tabp<CR>
 " Move between Buffers
 nnoremap <M-Left> :bprevious<CR>
 nnoremap <M-Right> :bnext<CR>
@@ -551,19 +532,33 @@ vnoremap // y/<C-R>"<CR>
 "Find usages
 vnoremap ?? y:noautocmd vimgrep /\<<C-R>"\>/ **/*.py <CR>
 "Find tags
-vnoremap tt y:tselect /<C-R>"<CR>
+nnoremap ts :exec("ts /".expand("<cword>"))<CR>
 "enable tab lines
 let g:airline#extensions#tabline#enabled = 1
 "remap y$ (yank to the end of the line except the new line character) to y$"
 noremap Y y$
 "Open tag definition in new tab http://stackoverflow.com/questions/563616/vim-and-ctags-tips-and-tricks
-map <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
+map <M-\> :tab split<CR>:exec("ts /".expand("<cword>"))<CR>
 "Open tag in vertical split
-map <M-\> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+map <C-\> :vsp <CR>:exec("ts /".expand("<cword>"))<CR>
 "map buffer next and prev
 map bt :bnext<CR>
 map bT :bprev<CR>
-
+"map g-Ctrl-] which goes to matching tag if only one else gives list of
+"matching tags
+nnoremap <C-]> g<C-]>
+" Bookmarks customizations
+let g:bookmark_highlight_lines = 1
+nmap bm <Plug>BookmarkToggle
+nmap ba <Plug>BookmarkAnnotate
+nmap ,b <Plug>BookmarkShowAll
+nmap bn <Plug>BookmarkNext
+nmap bp <Plug>BookmarkPrev
+nmap <Leader>c <Plug>BookmarkClear
+nmap <Leader>x <Plug>BookmarkClearAll
+nmap bkk <Plug>BookmarkMoveUp
+nmap bjj <Plug>BookmarkMoveDown
+nmap <Leader>g <Plug>BookmarkMoveToLine
 syntax on
 
 "Set no wrap
@@ -594,6 +589,7 @@ set shortmess+=c
 command! -complete=file -nargs=+ Tabe call s:ETW('tabnew', <f-args>)
 command! -complete=file -nargs=+ Tabewin call s:ETW('new', <f-args>)
 command! -complete=file -nargs=+ Tabevwin call s:ETW('vnew', <f-args>)
+
 function! s:ETW(what, ...)
   for f1 in a:000
     let files = glob(f1)
@@ -642,3 +638,19 @@ function! Buffe(...)
     exe "bn " . (t + 1)
   endif
 endfunction
+
+" Search only under selected region
+function! RangeSearch(direction)
+  call inputsave()
+  let g:srchstr = input(a:direction)
+  call inputrestore()
+  if strlen(g:srchstr) > 0
+    let g:srchstr = g:srchstr.
+          \ '\%>'.(line("'<")-1).'l'.
+          \ '\%<'.(line("'>")+1).'l'
+  else
+    let g:srchstr = ''
+  endif
+endfunction
+vnoremap <silent> / :<C-U>call RangeSearch('/')<CR>:if strlen(g:srchstr) > 0\|exec '/'.g:srchstr\|endif<CR>
+vnoremap <silent> ? :<C-U>call RangeSearch('?')<CR>:if strlen(g:srchstr) > 0\|exec '?'.g:srchstr\|endif<CR>
