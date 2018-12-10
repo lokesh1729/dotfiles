@@ -5,72 +5,109 @@
 
 " no vi-compatible
 set nocompatible
-
-" Setting up Vundle - the best vim plugin manager
-let iCanHazVundle=1
-let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
-if !filereadable(vundle_readme)
-    echo "Installing Vundle..."
-    echo ""
-    silent !mkdir -p ~/.vim/bundle
-    silent !git clone https://github.com/VundleVim/Vundle.vim.git ~/.vim/bundle/vundle
-    let iCanHazVundle=0
+if has('nvim')
+    let s:plug_path = '~/.local/share/nvim/site/autoload/plug.vim'
+    let g:python_host_prog  = '/usr/local/bin/python2.7'
+    let g:python3_host_prog = '/Users/slokesh/.pyenv/shims/python'
+    let s:plugged_path = '~/.local/share/nvim/plugged'
+else
+    let s:plug_path = '~/.vim/autoload/plug.vim'
+    let s:plugged_path = '~/.vim/plugged'
 endif
 
-filetype off
+if !filereadable(expand(s:plug_path))
+    echo 'Installing vim-plug...'
+    echo ''
+    execute "silent !curl -fLo " . s:plug_path . " --create-dirs "
+        \ "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 
-set rtp+=~/.vim/bundle/vundle/
-call vundle#rc()
+    " Install plugins after loading vim
+    autocmd VimEnter * PlugInstall
+endif
 
-" let Vundle manage Plugins
-Plugin 'gmarik/vundle'
+call plug#begin(s:plugged_path)
+exec printf('source %s/%s', s:plugged_path, '/plugin/bclose.vim')
+exec printf('source %s/%s', s:plugged_path, '/plugin/IndexedSearch.vim')
 
 " ============================================================================
-" Active plugins
-" You can disable or add new ones here:
-
-" Plugins from github repos:
-
 " Better file browser
-Plugin 'scrooloose/nerdtree'
+Plug 'scrooloose/nerdtree'
 " Code commenter
-Plugin 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter'
 " Class/module browser
-Plugin 'majutsushi/tagbar'
+Plug 'majutsushi/tagbar'
 " Code and files fuzzy finder
-Plugin 'ctrlpvim/ctrlp.vim'
+Plug 'ctrlpvim/ctrlp.vim'
 " Extension to ctrlp, for fuzzy command finder
-Plugin 'fisadev/vim-ctrlp-cmdpalette'
+Plug 'fisadev/vim-ctrlp-cmdpalette'
 " Maybe the best Git integration
-Plugin 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
 " Airline
-Plugin 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline'
 " awesome colorscheme
-Plugin 'tomasr/molokai'
+Plug 'tomasr/molokai'
+Plug 'dracula/vim', { 'as': 'dracula' }
 "alternative to SimpyLFold
-Plugin 'Konfekt/FastFold'
+Plug 'Konfekt/FastFold'
 " bookmarks
-Plugin 'MattesGroeger/vim-bookmarks'
+Plug 'MattesGroeger/vim-bookmarks'
 " ConfirmQuit
-Plugin 'vim-scripts/ConfirmQuit.vim'
+Plug 'vim-scripts/ConfirmQuit.vim'
+Plug 'tweekmonster/django-plus.vim'
 " Vim Ctags
-Plugin 'szw/vim-tags'
-" ============================================================================
-" Install plugins the first time vim runs
-
-if iCanHazVundle == 0
-    echo "Installing Plugins, please ignore key map error messages"
-    echo ""
-    :PluginInstall
+Plug 'szw/vim-tags'
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'mattn/emmet-vim'
+"let g:user_emmet_leader_key='<C-y>'
+let g:user_emmet_settings = {
+  \  'javascript.jsx' : {
+    \      'extends' : 'jsx',
+    \  },
+  \}
+Plug 'w0rp/ale'
+Plug 'tpope/vim-unimpaired'
+autocmd BufWritePost *.js AsyncRun -post=checktime ./node_modules/.bin/eslint --fix %
+let g:ale_sign_error = '●'
+let g:ale_lint_on_enter = 0
+if has('nvim')
+    Plug 'skywind3000/asyncrun.vim'
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'python-mode/python-mode', { 'branch': 'develop' }
+    Plug 'Shougo/context_filetype.vim'
+    Plug 'shougo/echodoc.vim'
+    Plug 'shougo/neoinclude.vim'
+    Plug 'zchee/deoplete-go'
+    Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+    Plug 'wokalski/autocomplete-flow'
+    Plug 'peitalin/vim-jsx-typescript'
+    Plug 'leafgarland/typescript-vim'
+    Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+    Plug 'Shougo/neco-syntax'
+    let g:deoplete#enable_at_startup = 1
+    autocmd FileType python call deoplete#custom#buffer_option('auto_complete', v:false)
+    let g:pymode_lint_cwindow = 0
+    run UpdateRemotePlugins
 endif
-
-" ============================================================================
+Plug 'SirVer/ultisnips'
+let g:UltiSnipsExpandTrigger       = "<tab>"
+let g:UltiSnipsJumpForwardTrigger  = "<c-b>"
+let g:UltiSnipsJumpBackwardTrigger = "<c-q>"
+let g:UltiSnipsListSnippets        = "<c-m>" "List possible snippets based on current file
+Plug 'airblade/vim-gitgutter'
+Plug 'godlygeek/tabular'
+Plug 'elzr/vim-json'
+Plug 'jiangmiao/auto-pairs'
+Plug 'mileszs/ack.vim'
+Plug 'alvan/vim-closetag'
+call plug#end()
+" =============Plugins end===========
 " Vim settings and mappings
-" You can edit them as you wish
 
-" allow plugins by file type (required for plugins!)
 filetype plugin on
 filetype indent on
+filetype on
 
 " tabs and spaces handling
 set expandtab
@@ -117,52 +154,50 @@ set nu
 " Plugins settings and mappings
 " Edit them as you wish.
 
-" Tagbar -----------------------------
+" Tagbar ----------------------------- 
 
 " toggle tagbar display
 map <F8> :TagbarToggle<CR>
+
 " autofocus on tagbar open
 let g:tagbar_autofocus = 1
 
-" NERDTree -----------------------------
+" NERDTree ----------------------------- 
 
 " toggle nerdtree display
-map <F3> :NERDTreeToggle<CR>
+map <C-n> :NERDTreeToggle<CR>
+autocmd vimenter * NERDTree
 " open nerdtree with the current file selected
 nmap ,n :NERDTreeFind<CR>
 " don;t show these file types
 let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\~$']
-let g:NERDTreeHijackNetrw = 0
 let g:NERDTreeWinSize = 18
+" open nerdtree with the current file selected
+nmap ,n :NERDTreeFind<CR>
 " CtrlP ------------------------------
 
 " file finder mappings
 let g:ctrlp_map = '<c-p>'
 let g:ctrlp_path_nolim = 1
 " hidden some types files
-let g:ctrlp_show_hidden = 1
 set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.png,*.jpg,*.gif           "Linux
-"mapping to CtrlP if not"
-"nmap <C-P> :CtrlP<CR>
+let g:ctrlp_extensions = ['buffertag', 'quickfix',  'undo', 'line', 'changes', 'mixed']
+"nmap <C-P> :CtrlP<CR> 
 "mapping to CtrlB for Searching Buffers
 nmap ,b :CtrlPBuffer<CR>
 " tags (symbols) in current file finder mapping
-nmap ,t :CtrlPBufTag<CR>
-" tags (symbols) in all files finder mapping
-nmap ,g :CtrlPBufTagAll<CR>
+nmap ,t :CtrlPBufTagAll<CR>
 " general code finder in all files mapping
 nmap ,l :CtrlPLine<CR>
-" recent files finder mapping
-nmap ,m :CtrlPMRUFiles<CR>
 " don't change working directory
 let g:ctrlp_working_path_mode = 0
 " ignore these files and folders on file finder
 let g:ctrlp_custom_ignore = {
-  \ 'dir':  '\v[\/](\.git|\.hg|\.svn)$',
+  \ 'dir':  '\v[\/](\.git|\.hg|\.svn|node_modules)$',
   \ 'file': '\.pyc$\|\.pyo$',
   \ }
-
-
+let g:ctrlp_cmdpalette_execute = 1
+nnoremap <C-b> :CtrlPCmdPalette<CR>
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#whitespace#enabled = 1
 
@@ -196,24 +231,21 @@ set tw=100
 
 colorscheme molokai
 " Move between tabs
-noremap <C-Right> :tabn<CR>
-noremap <C-Right> <ESC>:tabn<CR>
-noremap <C-Left> :tabp<CR>
-noremap <C-Left> <ESC>:tabp<CR>
-" Move between Buffers
-nnoremap <A-Left> :bprevious<CR>
-nnoremap <A-Right> :bnext<CR>
+" noremap <C-M-Right> <ESC>:tabn<CR>
+" noremap <C-M-Left> <ESC>:tabp<CR>
+" Move between Buffers alt + [ and alt + ]
+nnoremap “ :bprevious<CR>
+nnoremap ‘ :bnext<CR>
 "Search for selected text
 vnoremap // y/<C-R>"<CR>
-"Find usages
-vnoremap ?? y:noautocmd vimgrep /\<<C-R>"\>/ **/*.py <CR>
 "Find tags
+nnoremap <C-f> :Ack --ignore-dir **/node_modules/ --ignore-dir **/bower_components/ --ignore-dir **/dist/ --ignore-dir **/admin/ -H
 nnoremap ts :exec("ts /".expand("<cword>"))<CR>
 "enable tab lines
 "remap y$ (yank to the end of the line except the new line character) to y$"
 noremap Y y$
 "Open tag definition in new tab http://stackoverflow.com/questions/563616/vim-and-ctags-tips-and-tricks
-map <M-\> :tab split<CR>:exec("ts /".expand("<cword>"))<CR>
+"nnoremap « :tab split<CR>:exec("ts /".expand("<cword>"))<CR>
 "Open tag in vertical split
 map <C-\> :vsp <CR>:exec("ts /".expand("<cword>"))<CR>
 "map buffer next and prev
@@ -226,21 +258,16 @@ nnoremap <C-]> g<C-]>
 let g:bookmark_highlight_lines = 1
 nmap bm <Plug>BookmarkToggle
 nmap ba <Plug>BookmarkAnnotate
-nmap <C-b> <Plug>BookmarkShowAll
+nmap bs <Plug>BookmarkShowAll
 nmap bn <Plug>BookmarkNext
 nmap bp <Plug>BookmarkPrev
 nmap <Leader>c <Plug>BookmarkClear
 nmap <Leader>x <Plug>BookmarkClearAll
-nmap bkk <Plug>BookmarkMoveUp
-nmap bjj <Plug>BookmarkMoveDown
-nmap <Leader>g <Plug>BookmarkMoveToLine
-syntax on
-
 "Set no wrap
 set nowrap
 
 set formatoptions=l
-set shortmess+=c
+set shortmess+=c 
 
 " Search only under selected region
 function! RangeSearch(direction)
@@ -257,3 +284,28 @@ function! RangeSearch(direction)
 endfunction
 vnoremap <silent> / :<C-U>call RangeSearch('/')<CR>:if strlen(g:srchstr) > 0\|exec '/'.g:srchstr\|endif<CR>
 vnoremap <silent> ? :<C-U>call RangeSearch('?')<CR>:if strlen(g:srchstr) > 0\|exec '?'.g:srchstr\|endif<CR>
+
+let g:kite_tab_complete=1
+
+if has('gui_macvim')
+    set guifont=SourceCodeProForPowerline-Regular:h14
+endif
+if has('gui_vimr')
+    colorscheme dracula
+endif
+"Find refernces ctrl + ?
+noremap <C-e> :exec('Ack '.expand("<cword>").' -H --ignore-dir **/node_modules/ --ignore-dir **/bower_components/ --ignore-dir **/dist/ --ignore-dir **/admin/')<CR>
+augroup typescript
+    autocmd!
+    " setting typescript things.
+    let g:nvim_typescript#type_info_on_hold = 1
+    let g:nvim_typescript#signature_complete = 1
+
+    autocmd BufNewFile,BufRead *.ts set filetype=typescript
+    autocmd BufNewFile,BufRead *.tsx set filetype=typescript.jsx
+    autocmd FileType typescript set tabstop=2 shiftwidth=2 expandtab
+    nnoremap <leader>i :TSImport<CR>
+    nnoremap <leader>d :TSDefPreview<CR>
+    nnoremap <leader>t :TSType<CR>
+    nnoremap <leader>f :TSGetCodeFix<CR> " this is called on insert leave
+augroup END
