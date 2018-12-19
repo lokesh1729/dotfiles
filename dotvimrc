@@ -76,7 +76,9 @@ let g:ale_lint_on_enter = 0
 if has('nvim')
     Plug 'skywind3000/asyncrun.vim'
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
-    Plug 'python-mode/python-mode', { 'branch': 'develop' }
+    " disabling python-mode for jedi
+    " Plug 'python-mode/python-mode', { 'branch': 'develop' }
+    Plug 'davidhalter/jedi-vim'
     Plug 'Shougo/context_filetype.vim'
     Plug 'shougo/echodoc.vim'
     Plug 'shougo/neoinclude.vim'
@@ -90,7 +92,12 @@ if has('nvim')
     Plug 'Shougo/neosnippet.vim'
     Plug 'Shougo/neosnippet-snippets'
     let g:deoplete#enable_at_startup = 1
-    let g:pymode_lint_cwindow = 0
+    "let g:pymode_python = 'python3'
+    "let g:pymode_lint_cwindow = 0
+    "let g:pymode_lint = 0
+    "let g:pymode_lint_on_write = 0
+    "let g:pymode_rope = 0
+    "let g:pymode_lint_checkers = [] " even though virtualenv is activated, imports are still showing errors
     imap <C-k>  <Plug>(neosnippet_expand_or_jump)
     smap <C-k>  <Plug>(neosnippet_expand_or_jump)
     xmap <C-k>  <Plug>(neosnippet_expand_target)
@@ -115,6 +122,10 @@ filetype indent on
 filetype on
 
 " highlight cursor line and column
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 set cursorline
 set cursorcolumn
 " hidden startup messages
@@ -297,11 +308,13 @@ autocmd VimEnter * wincmd p
 let g:ale_fixers = {'python':
             \['autopep8', 'yapf', 'isort', 'add_blank_lines_for_python_control_statements'],
             \'*': ['remove_trailing_lines', 'trim_whitespace'],
-            \'javascript': ['importjs', 'prettier-eslint']}
-let g:ale_linters = {'css': ['prettier'],
-            \'HTML': ['prettier'],
+            \'javascript': ['importjs', 'prettier-eslint'],
+            \'html': ['prettier'],
+            \'css': ['prettier']}
+let g:ale_linters = {'css': ['csslint', 'prettier'],
+            \'html': ['htmlhint', 'alex'],
             \'javascript': ['flow', 'prettier-eslint'],
-            \'python': ['flake8', 'pycodestyle', 'pylint']}
+            \'python': ['flake8', 'pylint', 'pycodestyle']}
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_save = 1
 augroup typescript
@@ -309,7 +322,7 @@ augroup typescript
     " setting typescript things.
     let g:nvim_typescript#type_info_on_hold = 1
     let g:nvim_typescript#signature_complete = 1
-     autocmd BufNewFile,BufRead *.ts set filetype=typescript
+    autocmd BufNewFile,BufRead *.ts set filetype=typescript
     autocmd BufNewFile,BufRead *.tsx set filetype=typescript.jsx
     autocmd FileType typescript set tabstop=2 shiftwidth=2 expandtab
     nnoremap <leader>i :TSImport<CR>
