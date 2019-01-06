@@ -1,0 +1,294 @@
+set nocompatible
+if has('nvim')
+    let s:plug_path = '~/.local/share/nvim/site/autoload/plug.vim'
+    let g:python_host_prog  = '/usr/local/bin/python2.7'
+    let g:python3_host_prog = '/Users/slokesh/.pyenv/shims/python'
+    let s:plugged_path = '~/.local/share/nvim/plugged'
+else
+    let s:plug_path = '~/.vim/autoload/plug.vim'
+    let s:plugged_path = '~/.vim/plugged'
+endif
+
+if !filereadable(expand(s:plug_path))
+    echo 'Installing vim-plug...'
+    echo ''
+    execute "silent !curl -fLo " . s:plug_path . " --create-dirs "
+        \ "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
+
+    " Install plugins after loading vim
+    autocmd VimEnter * PlugInstall
+endif
+
+call plug#begin(s:plugged_path)
+exec printf('source %s/%s', s:plugged_path, '/plugin/bclose.vim')
+exec printf('source %s/%s', s:plugged_path, '/plugin/IndexedSearch.vim')
+
+" ============================================================================
+" Better file browser
+Plug 'scrooloose/nerdtree'
+" Code commenter
+Plug 'scrooloose/nerdcommenter'
+" Class/module browser
+Plug 'majutsushi/tagbar'
+" Code and files fuzzy finder
+Plug 'ctrlpvim/ctrlp.vim'
+" Extension to ctrlp, for fuzzy command finder
+Plug 'fisadev/vim-ctrlp-cmdpalette'
+" Maybe the best Git integration
+Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-surround'
+" Airline
+Plug 'vim-airline/vim-airline'
+" awesome colorscheme
+Plug 'tomasr/molokai'
+Plug 'dracula/vim', { 'as': 'dracula' }
+"alternative to SimpyLFold
+Plug 'Konfekt/FastFold'
+" bookmarks
+Plug 'MattesGroeger/vim-bookmarks'
+" ConfirmQuit
+Plug 'vim-scripts/ConfirmQuit.vim'
+" Vim Ctags
+Plug 'szw/vim-tags'
+let g:vim_tags_directories = ['.']
+Plug 'pangloss/vim-javascript'
+Plug 'mxw/vim-jsx'
+Plug 'mattn/emmet-vim'
+"let g:user_emmet_leader_key='<C-y>'
+let g:user_emmet_settings = {
+  \  'javascript.jsx' : {
+    \      'extends' : 'jsx',
+    \  },
+  \}
+let g:jsx_ext_required = 1
+Plug 'w0rp/ale'
+Plug 'davidhalter/jedi-vim'
+Plug 'tpope/vim-unimpaired'
+"autocmd BufWritePost *.js AsyncRun -post=checktime ./node_modules/.bin/eslint --fix %
+let g:ale_sign_error = '●'
+let g:ale_lint_on_enter = 0
+if has('nvim')
+    Plug 'skywind3000/asyncrun.vim'
+    Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
+    Plug 'Shougo/context_filetype.vim'
+    Plug 'carlitux/deoplete-ternjs', { 'do': 'npm install -g tern' }
+    Plug 'peitalin/vim-jsx-typescript'
+    Plug 'leafgarland/typescript-vim'
+    Plug 'mhartington/nvim-typescript', {'do': './install.sh'}
+    Plug 'Shougo/neosnippet.vim'
+    Plug 'Shougo/neosnippet-snippets'
+    let g:deoplete#enable_at_startup = 1
+    imap <C-k>  <Plug>(neosnippet_expand_or_jump)
+    smap <C-k>  <Plug>(neosnippet_expand_or_jump)
+    xmap <C-k>  <Plug>(neosnippet_expand_target)
+    imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : "\<TAB>"
+    smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+    run UpdateRemotePlugins
+    run TagsGenerate!
+endif
+Plug 'airblade/vim-gitgutter'
+Plug 'godlygeek/tabular'
+Plug 'elzr/vim-json'
+Plug 'jiangmiao/auto-pairs'
+Plug 'mileszs/ack.vim'
+Plug 'alvan/vim-closetag'
+call plug#end()
+" =============Plugins end===========
+let g:jedi#completions_command = "<C-N>"
+let g:ack_default_options = " --ackrc /Users/slokesh/.ackrc --nocolor --nogroup --column --smart-case --follow -s "
+" Vim settings and mappings
+
+filetype plugin on
+filetype indent on
+filetype on
+
+" highlight cursor line and column
+set expandtab
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
+set cursorline
+set cursorcolumn
+" hidden startup messages
+set shortmess=atI
+" auto read and write
+set autowrite
+set autoread
+" when deal with unsaved files ask what to do
+set confirm
+set background=dark
+set encoding=utf-8
+set backspace=indent,eol,start
+
+" tab length exceptions on some file types
+ autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
+ autocmd FileType htmldjango setlocal shiftwidth=2 tabstop=2 softtabstop=2
+ autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2
+
+" always show status bar
+set laststatus=2
+
+" incremental search
+set incsearch
+" highlighted search results
+set hlsearch
+" search ignore case
+set ignorecase
+
+" syntax highlight on
+syntax on
+" show line numbers
+set nu
+" Tagbar -----------------------------
+
+" toggle tagbar display
+map <F8> :TagbarToggle<CR>
+
+" autofocus on tagbar open
+let g:tagbar_autofocus = 1
+
+" NERDTree -----------------------------
+
+" toggle nerdtree display
+map <C-n> :NERDTreeToggle<CR>
+autocmd vimenter * NERDTree
+" open nerdtree with the current file selected
+nmap ,n :NERDTreeFind<CR>
+" don;t show these file types
+let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\~$']
+let g:NERDTreeWinSize = 18
+" open nerdtree with the current file selected
+nmap ,n :NERDTreeFind<CR>
+" CtrlP ------------------------------
+
+" file finder mappings
+let g:ctrlp_map = '<c-p>'
+let g:ctrlp_path_nolim = 1
+" hidden some types files
+set wildignore+=*/tmp/*,*.so,*.swp,*.zip,*.pyc,*.png,*.jpg,*.gif           "Linux
+let g:ctrlp_extensions = ['buffertag', 'quickfix',  'undo', 'line', 'changes', 'mixed']
+"nmap <C-P> :CtrlP<CR>
+"mapping to CtrlB for Searching Buffers
+nmap ,b :CtrlPBuffer<CR>
+" tags (symbols) in current file finder mapping
+nmap ,t :CtrlPBufTagAll<CR>
+" general code finder in all files mapping
+nmap ,l :CtrlPLine<CR>
+" don't change working directory
+let g:ctrlp_working_path_mode = 0
+" ignore these files and folders on file finder
+let g:ctrlp_custom_ignore = {
+  \ 'dir':  '\v[\/](\.git|\.hg|\.svn|node_modules)$',
+  \ 'file': '\.pyc$\|\.pyo$',
+  \ }
+let g:ctrlp_cmdpalette_execute = 1
+nnoremap <C-b> :CtrlPCmdPalette<CR>
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#whitespace#enabled = 1
+
+if !exists('g:airline_symbols')
+   let g:airline_symbols = {}
+endif
+
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+let g:airline_symbols.branch = ''
+let g:airline_symbols.readonly = ''
+let g:airline_symbols.linenr = ''
+
+
+let g:airline#extensions#branch#enabled = 1
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline#extensions#tabline#enabled = 1
+"split navigations
+nnoremap <C-J> <C-W><C-J>
+nnoremap <C-K> <C-W><C-K>
+nnoremap <C-L> <C-W><C-L>
+nnoremap <C-H> <C-W><C-H>
+
+" Enable folding
+set foldmethod=indent
+set foldlevel=99
+
+set tw=100
+
+colorscheme molokai
+" Move between tabs
+noremap bt <ESC>:tabn<CR>
+noremap bT <ESC>:tabp<CR>
+" Move between Buffers alt + [ and alt + ]
+nnoremap “ :bprevious<CR>
+nnoremap ‘ :bnext<CR>
+"Search for selected text
+vnoremap // y/<C-R>"<CR>
+"Find tags
+nnoremap <C-f> :Ack!
+nnoremap ts :exec("ts /".expand("<cword>"))<CR>
+nnoremap y$ (yank to the end of the line except the new line character) to y$"
+noremap Y y$
+"Open tag definition in new tab http://stackoverflow.com/questions/563616/vim-and-ctags-tips-and-tricks
+"nnoremap « :tab split<CR>:exec("ts /".expand("<cword>"))<CR>
+"Open tag in vertical split
+map <C-\> :vsp <CR>:exec("ts /".expand("<cword>"))<CR>
+"map g-Ctrl-] which goes to matching tag if only one else gives list of
+"matching tags
+nnoremap <C-]> g<C-]>
+" Bookmarks customizations
+let g:bookmark_highlight_lines = 1
+nmap bm <Plug>BookmarkToggle
+nmap ba <Plug>BookmarkAnnotate
+nmap bs <Plug>BookmarkShowAll
+nmap bn <Plug>BookmarkNext
+nmap bp <Plug>BookmarkPrev
+nmap <Leader>c <Plug>BookmarkClear
+nmap <Leader>x <Plug>BookmarkClearAll
+"Set no wrap
+set nowrap
+
+set formatoptions=l
+set shortmess+=c
+
+" Search only under selected region
+function! RangeSearch(direction)
+  call inputsave()
+  let g:srchstr = input(a:direction)
+  call inputrestore()
+  if strlen(g:srchstr) > 0
+    let g:srchstr = g:srchstr.
+          \ '\%>'.(line("'<")-1).'l'.
+          \ '\%<'.(line("'>")+1).'l'
+  else
+    let g:srchstr = ''
+  endif
+endfunction
+vnoremap <silent> / :<C-U>call RangeSearch('/')<CR>:if strlen(g:srchstr) > 0\|exec '/'.g:srchstr\|endif<CR>
+vnoremap <silent> ? :<C-U>call RangeSearch('?')<CR>:if strlen(g:srchstr) > 0\|exec '?'.g:srchstr\|endif<CR>
+
+let g:kite_tab_complete=1
+
+if has('gui_macvim')
+    set guifont=SourceCodeProForPowerline-Regular:h14
+endif
+if has('gui_vimr')
+    colorscheme dracula
+endif
+"Find refernces ctrl + ?
+noremap <C-e> :exec('Ack! '.expand("<cword>"))<CR>
+" don't open nerd tree on startup FFS
+let g:NERDTreeHijackNetrw=0
+" Jump to the main window.
+autocmd VimEnter * wincmd p
+let g:ale_fixers = {'python':
+            \['autopep8', 'yapf', 'isort', 'add_blank_lines_for_python_control_statements'],
+            \'*': ['remove_trailing_lines', 'trim_whitespace'],
+            \'javascript': ['importjs', 'prettier-eslint'],
+            \'html': ['prettier'],
+            \'css': ['prettier']}
+let g:ale_linters = {'css': ['csslint', 'prettier'],
+            \'html': ['htmlhint', 'alex'],
+            \'javascript': ['flow', 'prettier-eslint'],
+            \'python': ['flake8', 'pylint', 'pycodestyle']}
+let g:ale_fix_on_save = 1
+let g:ale_lint_on_save = 1
