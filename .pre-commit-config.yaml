@@ -1,0 +1,27 @@
+repos:
+-   repo: https://github.com/ambv/black
+    rev: stable
+    hooks:
+    - id: black
+-   repo: https://github.com/pre-commit/pre-commit-hooks
+    rev: master
+    hooks:
+    - id: flake8
+-   repo: local
+    hooks:
+    - id: pylint
+      name: pylint
+      language: system
+      entry: "pylint --rcfile=.pylintrc --load-plugins=pylint_django --load-plugins=pylint_django.checkers.db_performance"
+-   repo: local
+    hooks:
+    - id: tests
+      name: django_tests
+      language: system
+      entry: "./scripts/run-tests.bash"
+default_language_version:
+    python: python3.6
+exclude: ^(config|scripts|db\.sqlite3|\.git|\.flake8|\.gitignore|\.pylintrc|README|pyproject\.toml|\.coverage)$
+
+# reference : https://ljvmiranda921.github.io/notebook/2018/06/21/precommits-using-black-and-flake8/
+# Home page : https://pre-commit.com
