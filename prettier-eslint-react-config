@@ -1,0 +1,99 @@
+# package.json
+{
+  "devDependencies": {
+      "eslint-config-airbnb": "^17.1.0",
+      "eslint-config-prettier": "^5.0.0",
+      "eslint-plugin-import": "^2.17.3",
+      "eslint-plugin-react": "^7.14.1",
+      "husky": "^2.5.0",
+      "lint-staged": "^8.2.1",
+      "prettier": "^1.18.2",
+      "pretty-quick": "^1.11.1"
+  },
+  "husky": {
+      "hooks": {
+        "pre-commit": "lint-staged"
+      }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx}": [
+      "pretty-quick — staged",
+      "eslint"
+    ]
+  }
+}
+
+# eslintrc
+
+{
+    "parser": "babel-eslint",
+    "parserOptions": {
+    "sourceType": "module",
+    "allowImportExportEverywhere": false,
+    "codeFrame": false
+},
+"extends": ["airbnb", "prettier"],
+"env": {
+    "browser": true,
+    "jest": true
+},
+"rules": {
+    "max-len": ["error", {"code": 100}],
+    "prefer-promise-reject-errors": ["off"],
+    "react/jsx-filename-extension": ["off"],
+    "react/prop-types": ["warn"],
+    "no-return-assign": ["off"]
+  }
+}
+
+
+# prettierrc
+
+{
+ "printWidth": 100,
+ "trailingComma": "all",
+ "tabWidth": 2,
+ "semi": true,
+ "singleQuote": false
+}
+
+
+#editorconfig
+
+
+root = true
+
+[*]
+
+charset = utf-8
+
+end_of_line = lf
+
+indent_size = 2
+
+indent_style = space
+
+insert_final_newline = true
+
+max_line_length = 100
+
+trim_trailing_whitespace = true
+
+[*.md]
+
+max_line_length = 0
+
+trim_trailing_whitespace = false
+
+[{Makefile,**.mk}]
+
+# Use tabs for indentation (Makefiles require tabs)
+
+indent_style = tab
+
+[*.scss]
+
+indent_size = 2
+
+indent_style = space
+
