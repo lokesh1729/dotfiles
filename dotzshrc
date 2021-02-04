@@ -120,8 +120,6 @@ source $ZSH/oh-my-zsh.sh
 # Example aliases
 # alias zshconfig="mate ~/.zshrc"
 # alias ohmyzsh="mate ~/.oh-my-zsh"
-export WORKON_HOME=$HOME/Envs
-mkdir -p $WORKON_HOME
 export P4CONFIG=".perforce"
 alias jshell='/Library/Java/JavaVirtualMachines/jdk-9.0.4.jdk/Contents/Home/bin/jshell'
 export NVM_DIR="$HOME/.nvm"
@@ -170,8 +168,6 @@ export GIT_SSH=/usr/bin/ssh
 eval "$(pyenv init -)"
 eval "$(pyenv virtualenv-init -)"
 alias portainer="docker run -d -p 8090:8000 -p 9090:9000 --name=portainer --restart=always -v /var/run/docker.sock:/var/run/docker.sock -v portainer_data:/data portainer/portainer"
-alias supervisord="supervisord -c /usr/local/etc/supervisord.ini"
-alias supervisorctl="supervisorctl -c /usr/local/etc/supervisord.ini"
 export PATH="/usr/local/opt/ruby/bin:$PATH"
 export PATH="/usr/local/opt/openssl@1.1/bin:$PATH"
 export PATH="/Users/slokesh/.gem/ruby/2.7.0/bin:$PATH"
@@ -183,3 +179,5 @@ export PATH="/usr/local/opt/openjdk@11/bin:$PATH"
 export JAVA_HOME="/Library/Java/JavaVirtualMachines/openjdk-11.jdk/Contents/Home"
 export M2_HOME="/usr/local/opt/maven"
 export PATH="/usr/local/opt/maven/bin:$PATH"
+export PATH="/Users/slokesh/.local/bin:$PATH"
+export PATH="/usr/local/opt:$PATH"
