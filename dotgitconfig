@@ -1,6 +1,6 @@
 [user]
-	name = lokeshatbigbasket
-    email = lokesh.sanapalli@bigbasket.com
+	name = Sanapalli Lokesh
+	email = hi@lokesh1729.com
 [alias]
     st = status
     ci = commit
@@ -12,3 +12,19 @@
     ls = log --pretty=format:"%C(yellow)%h\\ %ad%Cred%d\\ %Creset%s%Cblue\\ [%cn]" --decorate --date=relative
     fl = log -u
     rl = reflog --date=format:\"%a %d %b %Y\"
+[core]
+    excludesfile = /Users/slokesh/.gitignore_global
+    editor = vim
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path =
+[mergetool "sourcetree"]
+	cmd = /Applications/Sourcetree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[filter "lfs"]
+	clean = git-lfs clean -- %f
+	smudge = git-lfs smudge -- %f
+	process = git-lfs filter-process
+	required = true
+[commit]
+	template = /Users/slokesh/.stCommitMsg

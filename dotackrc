@@ -6,6 +6,13 @@
 --sort-files
 # Node modules created by npm
 --ignore-directory=is:node_modules
+<<<<<<< HEAD
+=======
+--ignore-directory=documentation
+--ignore-directory=dist
+--ignore-directory=static
+--ignore-directory=media
+>>>>>>> update names
 --color
 --with-filename
 --ignore-case
@@ -13,7 +20,12 @@
 --ignore-directory=is:.idea
 --ignore-directory=is:dist
 --ignore-directory=is:admin
+<<<<<<< HEAD
 --ignore-file=match:/[.]tags[a-z0-9]*$/
+=======
+--ignore-file=match:/[.]tags[0-9]*$/
+--ignore-file=match:/tags[0-9]*$/
+>>>>>>> update names
 # Backup files
 --ignore-file=ext:bak
 --ignore-file=match:/~$/
