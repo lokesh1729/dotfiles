@@ -207,12 +207,14 @@ let g:NERDTreeHijackNetrw=0
 let g:ale_fixers = {'python':
             \['isort', 'add_blank_lines_for_python_control_statements', 'black'],
             \'*': ['remove_trailing_lines', 'trim_whitespace'],
-            \'javascript': ['importjs', 'prettier', 'eslint'],
+            \'javascript': ['importjs', 'prettier'],
+            \'typescript': ['prettier'],
             \'html': ['prettier'],
             \'css': ['prettier', 'stylelint']}
 let g:ale_linters = {'css': ['csslint', 'prettier'],
             \'html': ['htmlhint', 'alex'],
             \'javascript': ['eslint'],
+            \'typescript': ['tslint'],
             \'python': ['flake8', 'pylint']} " flake8 = pycodestyle + pyflakes
 let g:ale_fix_on_save = 1
 let g:ale_lint_on_save = 1
@@ -242,15 +244,19 @@ nnoremap bd <ESC>:bdelete<CR>
 " Move between Buffers alt + [ and alt + ]
 nnoremap “ :bprevious<CR>
 nnoremap ‘ :bnext<CR>
-"Find tags
-nnoremap <C-f> :Ack!
-nnoremap ts :exec("ts /".expand("<cword>"))<CR>
 noremap Y y$
+" matching tags
+nnoremap <C-]> g<C-]>
+" IDE features
+" open search
+nnoremap <C-f> :Ack!
+" search for symbols :ts /
+" search word / symbol under cursor (current symbol)
+noremap <Leader>f :exec('Ack! '.expand("<cword>"))<CR>
+" goto word / symbol under cursor (current symbol) Ctrl + ] by default
+noremap <Leader>t :exec('tag '.expand("<cword>"))<CR>
 "Open tag definition in new tab http://stackoverflow.com/questions/563616/vim-and-ctags-tips-and-tricks
 nnoremap « :tab split<CR>:exec("ts /".expand("<cword>"))<CR>
-"matching tags
-nnoremap <C-]> g<C-]>
-noremap <C-e> :exec('Ack! '.expand("<cword>"))<CR>
 "Search for selected text
 vnoremap // y/<C-R>"<CR>
 vnoremap <silent> ? :<C-U>call RangeSearch('?')<CR>:if strlen(g:srchstr) > 0\|exec '?'.g:srchstr\|endif<CR>
@@ -262,7 +268,7 @@ nmap ,n :NERDTreeFind<CR>
 nmap ,b :CtrlPBuffer<CR>
 " tags (symbols) in current file finder mapping
 nmap ,t :CtrlPBufTagAll<CR>
-nmap ,o :CtrlPBufTagAll<CR>
+nmap ,o :CtrlPBufTag<CR>
 " general code finder in all files mapping
 nmap ,l :CtrlPLine<CR>
 " toggle nerdtree display
@@ -279,7 +285,6 @@ nmap <silent> <C-_> <Plug>(pydocstring)
 nmap <F6> <Plug>(ale_fix)
 "Open tag in vertical split
 map <C-\> :vsp <CR>:exec("ts /".expand("<cword>"))<CR>
-map g-Ctrl-] which goes to matching tag if only one else gives list of
 
 " ======================== Misc ========================
 if has('gui_vimr')

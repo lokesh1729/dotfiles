@@ -1,11 +1,12 @@
 ## Git
 # http://git-scm.com/
---ignore-directory=is:.git
+--ignore-directory=.git
 # When using submodules, .git is a file.
 --ignore-file=is:.git
 --sort-files
 # Node modules created by npm
---ignore-directory=is:node_modules
+--ignore-directory=node_modules
+--ignore-directory=htmlcov
 --ignore-directory=documentation
 --ignore-directory=dist
 --ignore-directory=static
@@ -13,10 +14,10 @@
 --color
 --with-filename
 --ignore-case
---ignore-directory=is:bower_components
---ignore-directory=is:.idea
---ignore-directory=is:dist
---ignore-directory=is:admin
+--ignore-directory=bower_components
+--ignore-directory=.idea
+--ignore-directory=dist
+--ignore-directory=admin
 --ignore-file=match:/[.]tags[0-9]*$/
 --ignore-file=match:/tags[0-9]*$/
 # Backup files
