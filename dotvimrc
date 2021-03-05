@@ -102,6 +102,8 @@ Plug 'mileszs/ack.vim'
 Plug 'alvan/vim-closetag'
 Plug 'mbbill/undotree'
 Plug 'sheerun/vim-polyglot'
+Plug 'mbbill/undotree'
+Plug 'pseewald/vim-anyfold'
 " colorschemes
 Plug 'tomasr/molokai'
 Plug 'morhetz/gruvbox'
@@ -112,6 +114,16 @@ Plug 'ayu-theme/ayu-vim'
 Plug 'pineapplegiant/spaceduck', { 'branch': 'main' }
 call plug#end()
 " ==================== Settings =================
+:command W w
+:command WQ wq
+:command Wq wq
+:command Wa wa
+:command wA wa
+:command WA wa
+:command WQA wqa
+:command Wqa wqa
+:command WQa wqa
+:command Q q
 " Vim settings and mappings
 set nocompatible
 filetype plugin on
@@ -141,9 +153,11 @@ autocmd FileType html setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType htmldjango setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType javascript setlocal shiftwidth=2 tabstop=2 softtabstop=2
 autocmd FileType python setlocal tabstop=4 shiftwidth=4 softtabstop=4 expandtab
-autocmd vimenter * NERDTree
+autocmd FileType * AnyFoldActivate
 " Jump to the main window.
 autocmd VimEnter * wincmd p
+" https://github.com/tpope/vim-unimpaired/issues/158
+autocmd VimEnter * unmap <silent><expr> co
 " always show status bar
 set laststatus=2
 " incremental search
@@ -191,6 +205,7 @@ let g:airline#extensions#whitespace#enabled = 1
 if !exists('g:airline_symbols')
    let g:airline_symbols = {}
 endif
+let g:airline_theme = 'dracula'
 let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
@@ -272,38 +287,45 @@ nmap ,o :CtrlPBufTag<CR>
 " general code finder in all files mapping
 nmap ,l :CtrlPLine<CR>
 " toggle nerdtree display
-map <C-n> :NERDTreeToggle<CR>
-nmap bm <Plug>BookmarkToggle
+map <F3> :NERDTreeToggle<CR>
+nmap bt <Plug>BookmarkToggle
 nmap ba <Plug>BookmarkAnnotate
 nmap bs <Plug>BookmarkShowAll
 nmap bn <Plug>BookmarkNext
 nmap bp <Plug>BookmarkPrev
-nmap <Leader>c <Plug>BookmarkClear
-nmap <Leader>x <Plug>BookmarkClearAll
+nmap <Leader>bc <Plug>BookmarkClear
+nmap <Leader>ba <Plug>BookmarkClearAll
 "Find refernces ctrl + ?
 nmap <silent> <C-_> <Plug>(pydocstring)
 nmap <F6> <Plug>(ale_fix)
 "Open tag in vertical split
 map <C-\> :vsp <CR>:exec("ts /".expand("<cword>"))<CR>
+nnoremap <F5> :UndotreeToggle<CR>
 
 " ======================== Misc ========================
 if has('gui_vimr')
-    " colorscheme dracula
+    "colorscheme molokai
+    colorscheme dracula
     "colorscheme gruvbox
-    set termguicolors     " enable true colors support
-    let ayucolor="light"  " for light version of theme
-    let ayucolor="mirage" " for mirage version of theme
-    let ayucolor="dark"   " for dark version of theme
-    colorscheme ayu
+    " set termguicolors     " enable true colors support
+    " let ayucolor="light"  " for light version of theme
+    " let ayucolor="mirage" " for mirage version of theme
+    " let ayucolor="dark"   " for dark version of theme
+    "colorscheme ayu
+    "colorscheme spaceduck
     set guifont=FiraCode\ Nerd\ Font\ Mono:h18
+elseif has('gui_running')
+    colorscheme gruvbox
+    set guifont=Hack\ Nerd\ Font\ Mono:h18
 else
     colorscheme spaceduck
     "colorscheme molokai
 endif
 if $PWD != $HOME && filereadable($PWD .'/.vimrc')
   source ./.vimrc
-  g:custom_vimrc='yes'
+  let g:custom_vimrc='yes'
 endif
 if has('unix') && empty($TMPDIR)
+    echo 'temp dir is'
     let $TMPDIR = '/tmp'
 endif
