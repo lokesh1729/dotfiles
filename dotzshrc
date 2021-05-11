@@ -76,6 +76,8 @@ plugins=(
   colorize
   django
   docker
+  fzf
+  fzf-tab
   gulp
   iterm2
   nvm
@@ -187,3 +189,13 @@ eval "$(jenv init -)"
 # export HOST_PORT="443"
 # export GET_REQUEST_DISABLE_XSRF_TOKEN="true"
 # export HOST="control.cloud-sqa-shared.akamai.com"
+alias fp="/Applications/Firefox.app/Contents/MacOS/firefox-bin -P &"
+alias vv="source venv/bin/activate"
+export PATH="/Users/Shared/DBngin/mysql/8.0.19/bin:$PATH"
+ckill () {
+    ps -ef | grep "celery" | \
+    awk '{print $2}' | \
+    xargs kill -9
+}
+export FZF_BASE="/Users/slokesh/.fzf"
+alias cdb="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remote-debugging-port=9222 &"

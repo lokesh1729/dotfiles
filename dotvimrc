@@ -118,7 +118,6 @@ call plug#end()
 :command WQ wq
 :command Wq wq
 :command Wa wa
-:command wA wa
 :command WA wa
 :command WQA wqa
 :command Wqa wqa
@@ -313,7 +312,6 @@ if has('gui_vimr')
     " let ayucolor="dark"   " for dark version of theme
     "colorscheme ayu
     "colorscheme spaceduck
-    set guifont=FiraCode\ Nerd\ Font\ Mono:h18
 elseif has('gui_running')
     colorscheme gruvbox
     set guifont=Hack\ Nerd\ Font\ Mono:h18
