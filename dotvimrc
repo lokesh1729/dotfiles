@@ -256,21 +256,24 @@ nnoremap tp <ESC>:tabp<CR>
 nnoremap tc <ESC>:bdelete<CR>
 nnoremap bd <ESC>:bdelete<CR>
 " Move between Buffers alt + [ and alt + ]
-nnoremap “ :bprevious<CR>
-nnoremap ‘ :bnext<CR>
+nnoremap <M-[> <ESC>:bprevious<CR>
+nnoremap <M-]> <ESC>:bnext<CR>
 noremap Y y$
-" matching tags
-nnoremap <C-]> g<C-]>
 " IDE features
+" goto word / symbol under cursor (current symbol) Ctrl + ] by default
+nnoremap <Leader>d g<C-]>
+" open definition in a horizontal split
+nnoremap <C-\> <C-W><C-]>
+" open definition in a vertical split
+nnoremap <C-]> :vsp <CR>:exec("tag ".expand("<cword>"))<CR>
+" Open tag definition in new tab http://stackoverflow.com/questions/563616/vim-and-ctags-tips-and-tricks
+" nnoremap <C-\> :tab split<CR>:exec("tag ".expand("<cword>"))<CR>
 " open search
 nnoremap <C-f> :Ack!
 " search for symbols :ts /
 " search word / symbol under cursor (current symbol)
 noremap <Leader>f :exec('Ack! '.expand("<cword>"))<CR>
-" goto word / symbol under cursor (current symbol) Ctrl + ] by default
 noremap <Leader>t :exec('tag '.expand("<cword>"))<CR>
-"Open tag definition in new tab http://stackoverflow.com/questions/563616/vim-and-ctags-tips-and-tricks
-nnoremap « :tab split<CR>:exec("ts /".expand("<cword>"))<CR>
 "Search for selected text
 vnoremap // y/<C-R>"<CR>
 vnoremap <silent> ? :<C-U>call RangeSearch('?')<CR>:if strlen(g:srchstr) > 0\|exec '?'.g:srchstr\|endif<CR>
@@ -285,8 +288,9 @@ nmap ,t :CtrlPBufTagAll<CR>
 nmap ,o :CtrlPBufTag<CR>
 " general code finder in all files mapping
 nmap ,l :CtrlPLine<CR>
-" toggle nerdtree display
+" nerd tree toggle
 map <F3> :NERDTreeToggle<CR>
+" Bookmarks
 nmap bt <Plug>BookmarkToggle
 nmap ba <Plug>BookmarkAnnotate
 nmap bs <Plug>BookmarkShowAll
@@ -294,11 +298,9 @@ nmap bn <Plug>BookmarkNext
 nmap bp <Plug>BookmarkPrev
 nmap <Leader>bc <Plug>BookmarkClear
 nmap <Leader>ba <Plug>BookmarkClearAll
-"Find refernces ctrl + ?
+" Misc
 nmap <silent> <C-_> <Plug>(pydocstring)
 nmap <F6> <Plug>(ale_fix)
-"Open tag in vertical split
-map <C-\> :vsp <CR>:exec("ts /".expand("<cword>"))<CR>
 nnoremap <F5> :UndotreeToggle<CR>
 
 " ======================== Misc ========================
