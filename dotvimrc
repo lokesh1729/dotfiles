@@ -244,7 +244,15 @@ let g:custom_vimrc='no'
 "let g:pymode_lint_checkers = [] " even though virtualenv is activated, imports are still showing errors
 
 " ============== Key Mappings ===================
-nnoremap <C-b> :CtrlPCmdPalette<CR>
+" editing
+" move lines up and down
+nnoremap <M-j> :m .+1<CR>==
+nnoremap <M-k> :m .-2<CR>==
+inoremap <M-j> <Esc>:m .+1<CR>==gi
+inoremap <M-k> <Esc>:m .-2<CR>==gi
+vnoremap <M-j> :m '>+1<CR>gv=gv
+vnoremap <M-k> :m '<-2<CR>gv=gv
+
 "split navigations
 nnoremap <C-J> <C-W><C-J>
 nnoremap <C-K> <C-W><C-K>
@@ -281,6 +289,7 @@ vnoremap <silent> / :<C-U>call RangeSearch('/')<CR>:if strlen(g:srchstr) > 0\|ex
 " open nerdtree with the current file selected
 nmap ,n :NERDTreeFind<CR>
 " CtrlP
+nnoremap <C-b> :CtrlPCmdPalette<CR>
 "mapping to CtrlB for Searching Buffers
 nmap ,b :CtrlPBuffer<CR>
 " tags (symbols) in current file finder mapping
