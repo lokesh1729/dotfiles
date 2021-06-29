@@ -95,6 +95,8 @@ plugins=(
   zsh-syntax-highlighting
   zsh-autosuggestions
 )
+autoload -Uz compinit; compinit
+[ -f ~/.fzf.zsh ] && source ~/.fzf.zsh
 source $ZSH/oh-my-zsh.sh
 
 # User configuration

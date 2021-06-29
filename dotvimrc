@@ -62,6 +62,8 @@ Plug 'MattesGroeger/vim-bookmarks'
 Plug 'vim-scripts/ConfirmQuit.vim'
 " Vim Ctags
 Plug 'ludovicchabant/vim-gutentags'
+Plug 'xolox/vim-misc'
+Plug 'xolox/vim-session'
 Plug 'mattn/emmet-vim'
 Plug 'tweekmonster/django-plus.vim'
 Plug 'w0rp/ale'
@@ -123,6 +125,7 @@ call plug#end()
 :command Wqa wqa
 :command WQa wqa
 :command Q q
+:command Bc Bclose
 " Vim settings and mappings
 set nocompatible
 filetype plugin on
@@ -187,8 +190,13 @@ let g:ack_default_options = " --ackrc /Users/slokesh/.ackrc --nocolor --nogroup 
 " don;t show these file types
 let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\~$']
 let g:NERDTreeWinSize = 18
-" file finder mappings
+" ctrlp mappings
+if executable('rg')
+  let g:ctrlp_user_command = 'rg %s --files --hidden --color=never --glob ""'
+endif
 let g:ctrlp_map = '<c-p>'
+"let g:ctrlp_open_multiple_files = '1ij'
+let g:ctrlp_open_multiple_files = '1'
 let g:ctrlp_path_nolim = 1
 " don't change working directory
 let g:ctrlp_working_path_mode = 0
@@ -242,7 +250,10 @@ let g:custom_vimrc='no'
 "let g:pymode_lint_on_write = 0
 "let g:pymode_rope = 0
 "let g:pymode_lint_checkers = [] " even though virtualenv is activated, imports are still showing errors
-
+let g:session_autoload='yes'
+let g:session_autosave='yes'
+let g:session_autosave_to='session'
+let g:session_autosave_periodic='1'
 " ============== Key Mappings ===================
 " editing
 " move lines up and down
