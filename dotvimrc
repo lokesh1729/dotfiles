@@ -73,6 +73,7 @@ let g:ale_sign_warning = '⚠️'
 let g:ale_lint_on_enter = 0
 Plug 'heavenshell/vim-pydocstring'
 Plug 'Xuyuanp/nerdtree-git-plugin'
+Plug 'davidhalter/jedi-vim'
 if has('nvim')
     Plug 'skywind3000/asyncrun.vim'
     Plug 'Shougo/deoplete.nvim', { 'do': ':UpdateRemotePlugins' }
@@ -93,8 +94,6 @@ if has('nvim')
     smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
     run UpdateRemotePlugins
     run TagsGenerate!
-else
-    Plug 'davidhalter/jedi-vim'
 endif
 Plug 'airblade/vim-gitgutter'
 Plug 'godlygeek/tabular'
@@ -280,7 +279,6 @@ nnoremap <M-]> <ESC>:bnext<CR>
 noremap Y y$
 " IDE features
 " goto word / symbol under cursor (current symbol) Ctrl + ] by default
-nnoremap <Leader>d g<C-]>
 " open definition in a horizontal split
 nnoremap <C-\> <C-W><C-]>
 " open definition in a vertical split
