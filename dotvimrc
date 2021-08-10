@@ -17,7 +17,7 @@ endfunction
 if has('nvim')
     let s:plug_path = '~/.local/share/nvim/site/autoload/plug.vim'
     let g:python_host_prog  = '/usr/bin/python2'
-    let g:python3_host_prog = '/Users/slokesh/.pyenv/versions/3.6.5/bin/python'
+    let g:python3_host_prog = '/Users/slokesh/.pyenv/shims/python'
     let g:ruby_host_prog = '/usr/local/opt/ruby/bin/ruby'
     let s:plugged_path = '~/.local/share/nvim/plugged'
 else
@@ -27,7 +27,6 @@ endif
 
 if !filereadable(expand(s:plug_path))
     echo 'Installing vim-plug...'
-    echo ''
     execute "silent !curl -fLo " . s:plug_path . " --create-dirs "
         \ "https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim"
 
@@ -344,6 +343,5 @@ if $PWD != $HOME && filereadable($PWD .'/.vimrc')
   let g:custom_vimrc='yes'
 endif
 if has('unix') && empty($TMPDIR)
-    echo 'temp dir is'
     let $TMPDIR = '/tmp'
 endif
