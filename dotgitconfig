@@ -28,3 +28,5 @@
 	required = true
 [commit]
 	template = /Users/slokesh/.gitmessage
+[init]
+	defaultBranch = master

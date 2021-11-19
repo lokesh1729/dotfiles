@@ -17,7 +17,7 @@ endfunction
 if has('nvim')
     let s:plug_path = '~/.local/share/nvim/site/autoload/plug.vim'
     let g:python_host_prog  = '/usr/bin/python2'
-    let g:python3_host_prog = '/Users/slokesh/.pyenv/shims/python'
+    let g:python3_host_prog = $HOME . '/.pyenv/shims/python'
     let g:ruby_host_prog = '/usr/local/opt/ruby/bin/ruby'
     let s:plugged_path = '~/.local/share/nvim/plugged'
 else
@@ -157,7 +157,7 @@ autocmd FileType * AnyFoldActivate
 " Jump to the main window.
 autocmd VimEnter * wincmd p
 " https://github.com/tpope/vim-unimpaired/issues/158
-autocmd VimEnter * unmap <silent><expr> co
+" autocmd VimEnter * unmap <silent><expr> co
 " always show status bar
 set laststatus=2
 " incremental search
@@ -184,7 +184,7 @@ let g:vim_tags_directories = ['.']
 " autofocus on tagbar open
 let g:tagbar_autofocus = 1
 let g:jedi#completions_command = "<C-N>"
-let g:ack_default_options = " --ackrc /Users/slokesh/.ackrc --nocolor --nogroup -s "
+let g:ack_default_options = " --ackrc" . $HOME .  "/.ackrc --nocolor --nogroup -s "
 " don;t show these file types
 let NERDTreeIgnore = ['\.pyc$', '\.pyo$', '\~$']
 let g:NERDTreeWinSize = 18
