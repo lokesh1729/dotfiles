@@ -13,7 +13,7 @@
     fl = log -u
     rl = reflog --date=format:\"%a %d %b %Y\"
 [core]
-    excludesfile = /Users/slokesh/.gitignore_global
+	excludesfile = $HOME/.gitignore_global
     editor = vim
 [difftool "sourcetree"]
 	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
@@ -27,6 +27,6 @@
 	process = git-lfs filter-process
 	required = true
 [commit]
-	template = /Users/slokesh/.gitmessage
+	template = $HOME/.gitmessage
 [init]
 	defaultBranch = master
