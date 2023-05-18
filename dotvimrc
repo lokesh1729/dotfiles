@@ -345,3 +345,5 @@ endif
 if has('unix') && empty($TMPDIR)
     let $TMPDIR = '/tmp'
 endif
+vnoremap < <gv
+vnoremap > >gv

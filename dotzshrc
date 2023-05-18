@@ -81,7 +81,6 @@ plugins=(
   iterm2
   nvm
   npm
-  npx
   pip
   pylint
   python
@@ -127,6 +126,7 @@ export P4CONFIG=".perforce"
 export NVM_DIR="$([ -z "${XDG_CONFIG_HOME-}" ] && printf %s "${HOME}/.nvm" || printf %s "${XDG_CONFIG_HOME}/nvm")"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
+export PATH="${PATH}:${NVM_BIN}"
 export NODE_ENV="development"
 export NODE_PORT=5000
 export AIRFLOW_HOME=$HOME/work/airflow_workflow
@@ -204,3 +204,4 @@ alias hb_binary="cd /usr/local/opt/"
 alias hb_config="cd /usr/local/etc/"
 alias hb_data="cd /usr/local/var/lib"
 alias hb_logs="cd /usr/local/var/log"
+export PATH="/usr/local/opt/go@1.16/bin:$PATH"
