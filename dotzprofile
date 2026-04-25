@@ -1,1 +1,8 @@
+export LDFLAGS="-L/usr/local/opt/mariadb@10.6/lib"
+export CPPFLAGS="-I/usr/local/opt/mariadb@10.6/include"
+export PKG_CONFIG_PATH="/usr/local/opt/mariadb@10.6/lib/pkgconfig"
+export LDFLAGS="-L/usr/local/opt/mysql-client/lib"
+export CPPFLAGS="-I/usr/local/opt/mysql-client/include"
+export MYSQLCLIENT_CFLAGS="-I$(brew --prefix mysql-client)/include/mysql"
+export MYSQLCLIENT_LDFLAGS="-L$(brew --prefix mysql-client)/lib -lmysqlclient"
 

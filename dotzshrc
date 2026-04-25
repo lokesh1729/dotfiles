@@ -125,7 +125,7 @@ source $ZSH/oh-my-zsh.sh
  if [[ -n $SSH_CONNECTION ]]; then
    export EDITOR='vim'
  else
-   export EDITOR='mvim'
+   export EDITOR='subl'
  fi
 
 # Compilation flags
@@ -206,7 +206,6 @@ alias cdb="/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome --remo
 eval "$(rbenv init -)"
 eval "$(jenv init -)"
 export PATH="$HOME/.jenv/bin:$PATH"
-export PATH="/Users/Shared/DBngin/postgresql/12.2/bin:$PATH"
 export CFLAGS="-I$(brew --prefix openssl)/include -I$(brew --prefix bzip2)/include -I$(brew --prefix readline)/include -I$(xcrun --show-sdk-path)/usr/include"
 export LDFLAGS="-L$(brew --prefix openssl)/lib -L$(brew --prefix readline)/lib -L$(brew --prefix zlib)/lib -L$(brew --prefix bzip2)/lib"
 export CPPFLAGS="-I/usr/local/opt/zlib/include -I/usr/local/opt/bzip2/include"
@@ -214,7 +213,6 @@ export PKG_CONFIG_PATH="/usr/local/opt/zlib/lib/pkgconfig"
 export PATH="$HOME/.pyenv/bin:$PATH"
 eval "$(pyenv init --path)"
 eval "$(direnv hook zsh)"
-alias vim="nvim"
 alias hb_home="cd $(brew --prefix)"
 alias hb_binary="cd $(brew --prefix)/bin/"
 alias hb_cellar="cd $(brew --prefix)/Cellar/"
@@ -224,3 +222,14 @@ alias hb_opt="cd $(brew --prefix)/opt"
 export PATH="/usr/local/opt/go@1.16/bin:$PATH"
 export PATH="$PATH:/Users/lokesh.sanapalli/Library/Application Support/JetBrains/Toolbox/scripts"
 test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh" || true
+# Load pyenv automatically by appending
+# the following to
+# ~/.zprofile (for login shells)
+# and ~/.zshrc (for interactive shells) :
+
+export PYENV_ROOT="$HOME/.pyenv"
+[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+eval "$(pyenv init - zsh)"
+
+# Restart your shell for the changes to take effect.
+export PATH="/usr/local/opt/mariadb@10.6/bin:$PATH"
